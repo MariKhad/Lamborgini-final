@@ -3,6 +3,7 @@ const menuMobile = document.querySelector('.menu-mobile');
 const arrow = document.querySelector('.arrow');
 const menu = document.querySelector('nav');
 const links = document.querySelectorAll('.menu-link__inner');
+const promo = document.querySelector('.promo__arrow');
 
 menuBtn.addEventListener('click', () => {
 	menuMobile.classList.toggle('menu--open');
@@ -24,6 +25,11 @@ menuMobile.addEventListener('click', function (e) {
 		let link = e.target;
 		scrollToId(link.hash);
 	}
+});
+
+promo.addEventListener('click', function (e) {
+	e.preventDefault();
+	scrollToId('#info');
 });
 
 function scrollToId(id) {
