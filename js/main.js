@@ -1,10 +1,40 @@
 const menuBtn = document.querySelector('.menu-btn');
 const menuMobile = document.querySelector('.menu-mobile');
-let arrow = document.querySelector('.arrow');
+const arrow = document.querySelector('.arrow');
+const menu = document.querySelector('nav');
+const links = document.querySelectorAll('.menu-link__inner');
 
 menuBtn.addEventListener('click', () => {
 	menuMobile.classList.toggle('menu--open');
 });
+
+menu.addEventListener('click', function (e) {
+	if (e.target.classList.contains('menu-link__inner')) {
+		e.preventDefault();
+
+		let link = e.target;
+		scrollToId(link.hash);
+	}
+});
+
+menuMobile.addEventListener('click', function (e) {
+	if (e.target.classList.contains('menu-link__inner')) {
+		e.preventDefault();
+
+		let link = e.target;
+		scrollToId(link.hash);
+	}
+});
+
+function scrollToId(id) {
+	let target = document.querySelector(id);
+	let styles = window.getComputedStyle(target);
+
+	if (target !== null) {
+		let pos = elemOffsetTop(target) - parseFloat(styles.marginTop);
+		scrollToY(pos);
+	}
+}
 
 
 const swiper = new Swiper('.swiper', {
@@ -27,6 +57,35 @@ const swiper = new Swiper('.swiper', {
 		}
 	}
 });
+
+
+window.initMap = initMap;
+
+
+window.addEventListener('scroll', function () {
+	if (window.pageYOffset > window.innerHeight) {
+		arrow.classList.add('arrow-show');
+	} else {
+		arrow.classList.remove('arrow-show');
+	}
+})
+
+arrow.addEventListener('click', function (e) {
+	scrollToY(0);
+})
+
+function scrollToY(pos) {
+	window.scrollTo({
+		top: pos,
+		behavior: "smooth"
+	})
+}
+
+function elemOffsetTop(node) {
+	let coords = node.getBoundingClientRect();
+	return coords.top + window.pageYOffset;
+}
+
 
 let map;
 
@@ -161,26 +220,4 @@ function initMap() {
 		]
 
 	});
-}
-
-window.initMap = initMap;
-
-
-window.addEventListener('scroll', function () {
-	if (window.pageYOffset > window.innerHeight) {
-		arrow.classList.add('arrow-show');
-	} else {
-		arrow.classList.remove('arrow-show');
-	}
-})
-
-arrow.addEventListener('click', function (e) {
-	scrollToY(0);
-})
-
-function scrollToY(pos) {
-	window.scrollTo({
-		top: pos,
-		behavior: "smooth"
-	})
 }
